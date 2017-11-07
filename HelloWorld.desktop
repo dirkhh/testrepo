@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=HelloWorld
+GenericName=test app
+Comment=does nothing useful
+Exec=HelloWorld
+Terminal=true
+Categories=Utility;
+Icon=subsurface-icon
+Keywords=none
