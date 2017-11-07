@@ -18,8 +18,8 @@ script:
 
 after_success:
     - ls -lh HelloWorld*.AppImage
-    - echo "Travis claims our branch is $TRAVIS_BRANCH"
-    - if [ "$TRAVIS_BRANCH" != "master ] ; then export UPLOADTOOL_SUFFIX=$TRAVIS_BRANCH ; fi
+    - echo "Travis claims our branch is" $TRAVIS_BRANCH
+    - if [ ! -z $TRAVIS_BRANCH ] && [ "$TRAVIS_BRANCH" != "master ] ; then export UPLOADTOOL_SUFFIX=$TRAVIS_BRANCH ; fi
     - wget -c https://github.com/dirkhh/uploadtool/raw/master/upload.sh
     - bash -x ./upload.sh HelloWorld*.AppImage HelloWorld*.AppImage.zsync
 
