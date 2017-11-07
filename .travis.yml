@@ -24,6 +24,7 @@ deploy:
   skip_cleanup: true
   on:
     repo: dirkhh/testrepo
+    branch: master
 
 after_success:
     - ls -lh HelloWorld*Appimage
