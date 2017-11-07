@@ -16,6 +16,11 @@ script:
     - ./appimagetool-x86_64.AppImage ./appdir
     - find ./appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
 
+after_success:
+    - ls -lh HelloWorld*.AppImage
+    - wget -c https://github.com/dirkhh/uploadtool/raw/master/upload.sh
+    - bash -x ./upload.sh HelloWorld*.AppImage HelloWorld*.AppImage.zsync
+
 deploy:
   provider: releases
   api_key:
@@ -24,11 +29,6 @@ deploy:
   skip_cleanup: true
   on:
     repo: dirkhh/testrepo
-
-after_success:
-    - ls -lh HelloWorld*AppImage
-    - wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
-    - bash -x ./upload.sh HelloWorld*AppImage
 
 branches:
   except:
