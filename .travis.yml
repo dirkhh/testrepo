@@ -1,0 +1,31 @@
+language: c++
+sudo: true # for FUSE
+dist: trusty
+
+# cache:
+#     directories:
+#         - Qt
+
+script:
+    - make HelloWorld
+    - rm -rf ./appdir
+    - mkdir ./appdir
+    - cp subsurface-icon.png HelloWorld HelloWorld.desktop ./appdir
+    - wget "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
+    - chmod a+x appimagetool-x86_64.AppImage
+    - ./appimagetool-x86_64.AppImage ./appdir
+    - find ./appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
+
+deploy:
+  provider: releases
+  api_key:
+    secure: oZp8UpwrGpMKh2n0F2q0bFkXet1lBul55LtF49nK7JBcMx7sA5LXc4tlYMEl2NDIjwr7FafgyTaesPg3IeDrjUc4rC1X8k4Il6ge1KCwyLfhyyOQ41vVh8L8W49qFsF9iOoUVLGElAJqrX4hdLg3yutIgdx6RYNZVdsA7kdxguIv45hsKJ3svzO8ZzKNT7THtXxPUcABBnlJ7EMyP5IDEk5BNl3TqZlwZzuvromIaYIWtDA/mMLbcrHQd1bdDKt4N5+YAHqyjK5Su0hYYBZli5RPsslp5sfdtb4yVdpFKmrF2CHokMOwC3I0XiUgegRRWmGf92ESHemPSK1K34h5AAT/iZ0WmHujTHzdQ0xGBNWLioXTBiEc6js4psE5p9uMoMUfNBJ5aWx/5o0oW9GTJI9qbAkHGq+Gju0ftt/aIF7lM6X1oGa7VRiWNWHoFMG97CKEZ1pZQQYjJJ8pSGIt4yN6DIfkqy/g4KotQbHatdRD/Z5UG3xXGu7enNPA3pI939MtrRMnNM7PVVW3bbrlTJyVBLPkLeenieDZfauAK29j6FCNd/8AMvW4xXqXDQKKir9bGHHZA1Ye+GJP8OVOzh4fOifhuc3XDjhemIwQXYRGs//lOO4I+XeudWGwma4bn0M56+TsST8oYcb2MigqlGRkvIfsQCQzM9iYFu9hicA=
+  file: HelloWorld-x86_64.AppImage
+  skip_cleanup: true
+  on:
+    repo: dirkhh/testrepo
+
+branches:
+  except:
+    - # Do not build tags that we create when we upload to GitHub Releases
+    - /^(?i:continuous)$/
