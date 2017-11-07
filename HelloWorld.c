@@ -2,6 +2,6 @@
 
 int main(void)
 {
-   printf("Yeah, whatever!\n");
+   printf("Yeah, whatever! But I mean it.\n");
    return 0;
 }
