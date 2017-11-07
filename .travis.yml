@@ -25,6 +25,11 @@ deploy:
   on:
     repo: dirkhh/testrepo
 
+after_success:
+    - ls -lh HelloWorld*Appimage
+    - wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
+    - bash -x ./upload.sh HelloWorld*Appimage
+
 branches:
   except:
     - # Do not build tags that we create when we upload to GitHub Releases
