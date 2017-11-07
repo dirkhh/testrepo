@@ -1,2 +1,2 @@
 # testrepo
-this will make it easier to experiment with uploadtool
+This is simply used to exercise the Travis tooling.
