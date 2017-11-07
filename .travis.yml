@@ -24,12 +24,11 @@ deploy:
   skip_cleanup: true
   on:
     repo: dirkhh/testrepo
-    branch: master
 
 after_success:
-    - ls -lh HelloWorld*Appimage
+    - ls -lh HelloWorld*AppImage
     - wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
-    - bash -x ./upload.sh HelloWorld*Appimage
+    - bash -x ./upload.sh HelloWorld*AppImage
 
 branches:
   except:
