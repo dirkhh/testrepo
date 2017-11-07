@@ -18,6 +18,7 @@ script:
 
 after_success:
     - ls -lh HelloWorld*.AppImage
+    - export UPLOADTOOL_TAG="test"
     - wget -c https://github.com/dirkhh/uploadtool/raw/master/upload.sh
     - bash -x ./upload.sh HelloWorld*.AppImage HelloWorld*.AppImage.zsync
 
