@@ -22,7 +22,8 @@ after_success:
     - if [ ! -z $TRAVIS_BRANCH ] && [ "$TRAVIS_BRANCH" != "master" ] ; then export UPLOADTOOL_SUFFIX=$TRAVIS_BRANCH ; fi
     - wget -c https://github.com/dirkhh/uploadtool/raw/master/upload.sh
     - bash -x ./upload.sh HelloWorld*.AppImage
-    - bash -x ./after.sh
+    - ls -l ${TRAVIS_BUILD_DIR}
+    - bash -x ${TRAVIS_BUILD_DIR}/after.sh
 
 
 branches:
