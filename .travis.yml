@@ -22,15 +22,13 @@ after_success:
     - if [ ! -z $TRAVIS_BRANCH ] && [ "$TRAVIS_BRANCH" != "master" ] ; then export UPLOADTOOL_SUFFIX=$TRAVIS_BRANCH ; fi
     - wget -c https://github.com/dirkhh/uploadtool/raw/master/upload.sh
     - bash -x ./upload.sh HelloWorld*.AppImage
+    - RELEASE_NAME="continuous"
+    - RELEASE_TITLE="Release for continuous"
+    - BODY="Testin 1-2-3"
+    - release_id=${curl https://api.github.com/repos/Subsurface-divelog/subsurface/releases/tags/${RELEASE_NAME} | grep id: |grep "\"id\":" | head -n 1 | tr -s " " | cut -f 3 -d" " | cut -f 1 -d ",")
+    - release_infos=$(curl -H "Authorization: token ${GITHUB_TOKEN}" --request PATCH \
+       --data '{"tag_name": "'"$RELEASE_NAME"'","name": "'"$RELEASE_TITLE"'","body": "'"$BODY"'"}' "https://api.github.com/repos/Subsurface-divelog/subsurface/releases/${release_id}")
 
-deploy:
-  provider: releases
-  api_key:
-    secure: oZp8UpwrGpMKh2n0F2q0bFkXet1lBul55LtF49nK7JBcMx7sA5LXc4tlYMEl2NDIjwr7FafgyTaesPg3IeDrjUc4rC1X8k4Il6ge1KCwyLfhyyOQ41vVh8L8W49qFsF9iOoUVLGElAJqrX4hdLg3yutIgdx6RYNZVdsA7kdxguIv45hsKJ3svzO8ZzKNT7THtXxPUcABBnlJ7EMyP5IDEk5BNl3TqZlwZzuvromIaYIWtDA/mMLbcrHQd1bdDKt4N5+YAHqyjK5Su0hYYBZli5RPsslp5sfdtb4yVdpFKmrF2CHokMOwC3I0XiUgegRRWmGf92ESHemPSK1K34h5AAT/iZ0WmHujTHzdQ0xGBNWLioXTBiEc6js4psE5p9uMoMUfNBJ5aWx/5o0oW9GTJI9qbAkHGq+Gju0ftt/aIF7lM6X1oGa7VRiWNWHoFMG97CKEZ1pZQQYjJJ8pSGIt4yN6DIfkqy/g4KotQbHatdRD/Z5UG3xXGu7enNPA3pI939MtrRMnNM7PVVW3bbrlTJyVBLPkLeenieDZfauAK29j6FCNd/8AMvW4xXqXDQKKir9bGHHZA1Ye+GJP8OVOzh4fOifhuc3XDjhemIwQXYRGs//lOO4I+XeudWGwma4bn0M56+TsST8oYcb2MigqlGRkvIfsQCQzM9iYFu9hicA=
-  file: HelloWorld-x86_64.AppImage
-  skip_cleanup: true
-  on:
-    repo: dirkhh/testrepo
 
 branches:
   except:
