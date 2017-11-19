@@ -23,7 +23,6 @@ after_success:
     - wget -c https://github.com/dirkhh/uploadtool/raw/master/upload.sh
     - bash -x ./upload.sh HelloWorld*.AppImage
     - ls -l ${TRAVIS_BUILD_DIR}
-    - bash -x ${TRAVIS_BUILD_DIR}/after.sh
 
 
 branches:
